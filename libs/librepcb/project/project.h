@@ -28,6 +28,8 @@
 #include <librepcb/common/elementname.h>
 #include <librepcb/common/exceptions.h>
 #include <librepcb/common/fileio/directorylock.h>
+#include <librepcb/common/fileio/filesystemref.h>
+#include <librepcb/common/fileio/transactionalfilesystem.h>
 #include <librepcb/common/uuid.h>
 #include <librepcb/common/version.h>
 
@@ -40,7 +42,6 @@ class QPrinter;
 
 namespace librepcb {
 
-class TransactionalFileSystem;
 class StrokeFontPool;
 
 namespace project {
@@ -119,6 +120,13 @@ public:
    * @return The filepath to the project directory
    */
   const FilePath& getPath() const noexcept { return mPath; }
+
+  /**
+   * @brief Get the file system directory of the project
+   *
+   * @return The project's file system directory
+   */
+  FileSystemRef getDirectory() noexcept { return FileSystemRef(*mFileSystem); }
 
   /**
    * @brief Get the file system of the project

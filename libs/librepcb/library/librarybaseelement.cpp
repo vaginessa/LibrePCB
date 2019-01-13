@@ -99,10 +99,8 @@ LibraryBaseElement::LibraryBaseElement(const FileSystemRef& fileSystem,
   }
 
   // open main file
-  QString sexprFileName = mLongElementName % ".lp";
-  QString sexprFilePath = mFileSystem.getPrettyPath(sexprFileName);
   mLoadingFileDocument =
-      SExpression::parse(mFileSystem.readText(sexprFileName), sexprFilePath);
+      SExpression::parse(mFileSystem.readText(mLongElementName % ".lp"));
 
   // read attributes
   if (mLoadingFileDocument.getChildByIndex(0).isString()) {

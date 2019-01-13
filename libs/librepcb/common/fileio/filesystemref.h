@@ -23,7 +23,7 @@
 /*******************************************************************************
  *  Includes
  ******************************************************************************/
-#include "filesystem.h"
+#include "filepath.h"
 
 #include <QtCore>
 
@@ -33,12 +33,14 @@
 
 namespace librepcb {
 
+class FileSystem;
+
 /*******************************************************************************
  *  Class FileSystemRef
  ******************************************************************************/
 
-class FileSystemRef final : public FileSystem {
-  Q_OBJECT
+class FileSystemRef final {
+  Q_DECLARE_TR_FUNCTIONS(FileSystemRef)
 
 public:
   // Constructors / Destructor
@@ -55,16 +57,20 @@ public:
 
   // File Operations
   // QString getRootName() const noexcept override;
-  QString     getPrettyPath(const QString& path = "") const noexcept override;
-  QStringList getSubDirs(const QString& path = "") const noexcept override;
-  QStringList getFilesInDir(QString dir = "", const QStringList& filters =
-                                                  QStringList()) const override;
-  bool        fileExists(const QString& path) const noexcept override;
-  QByteArray  readBinary(const QString& path) const override;
-  void     writeBinary(const QString& path, const QByteArray& content) override;
-  FilePath createTemporaryFileOnDisk(const QString& path) const override;
-  void     removeFile(const QString& path) override;
-  void     removeDirRecursively(const QString& path) override;
+  QString     getPrettyPath(const QString& path = "") const noexcept;
+  QStringList getSubDirs(const QString& path = "") const noexcept;
+  QStringList getFilesInDir(QString            dir     = "",
+                            const QStringList& filters = QStringList()) const;
+  bool        fileExists(const QString& path) const noexcept;
+  QByteArray  readBinary(const QString& path) const;
+  void        writeBinary(const QString& path, const QByteArray& content);
+  FilePath    createTemporaryFileOnDisk(const QString& path) const;
+  void        removeFile(const QString& path);
+  void        removeDirRecursively(const QString& path);
+
+  // Convenience methods
+  QString readText(const QString& path) const;
+  void    writeText(const QString& path, const QString& content);
 
   // Operator Overloadings
   FileSystemRef& operator=(const FileSystemRef& rhs) noexcept;

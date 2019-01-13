@@ -57,10 +57,6 @@ public:
   virtual FilePath createTemporaryFileOnDisk(const QString& path) const    = 0;
   virtual void     removeFile(const QString& path)                         = 0;
   virtual void     removeDirRecursively(const QString& path)               = 0;
-
-  // Convenience methods
-  QString readText(const QString& path) const;
-  void    writeText(const QString& path, const QString& content);
 };
 
 /*******************************************************************************

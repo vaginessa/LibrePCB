@@ -31,18 +31,6 @@ namespace librepcb {
  *  General Methods
  ******************************************************************************/
 
-QString FileSystem::readText(const QString& path) const {
-  return QString::fromUtf8(readBinary(path));
-}
-
-void FileSystem::writeText(const QString& path, const QString& content) {
-  QByteArray raw = content.toUtf8();
-  if (!raw.endsWith('\n')) {
-    raw.append('\n');  // ensure trailing newline
-  }
-  writeBinary(path, raw);
-}
-
 /*******************************************************************************
  *  End of File
  ******************************************************************************/

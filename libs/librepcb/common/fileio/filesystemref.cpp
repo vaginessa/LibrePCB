@@ -22,6 +22,8 @@
  ******************************************************************************/
 #include "filesystemref.h"
 
+#include "filesystem.h"
+
 /*******************************************************************************
  *  Namespace
  ******************************************************************************/
@@ -31,18 +33,16 @@ namespace librepcb {
  *  Constructors / Destructor
  ******************************************************************************/
 
-FileSystemRef::FileSystemRef() noexcept : FileSystem(), mFileSystem(), mRoot() {
+FileSystemRef::FileSystemRef() noexcept : mFileSystem(), mRoot() {
 }
 
 FileSystemRef::FileSystemRef(const FileSystemRef& other,
                              const QString&       relpath) noexcept
-  : FileSystem(),
-    mFileSystem(other.mFileSystem),
-    mRoot(other.getAbsPath(relpath)) {
+  : mFileSystem(other.mFileSystem), mRoot(other.getAbsPath(relpath)) {
 }
 
 FileSystemRef::FileSystemRef(FileSystem& fs, const QString& root) noexcept
-  : FileSystem(), mFileSystem(&fs), mRoot(root) {
+  : mFileSystem(&fs), mRoot(root) {
   Q_ASSERT(!mRoot.endsWith('/'));
 }
 
@@ -150,6 +150,22 @@ void FileSystemRef::removeDirRecursively(const QString& path) {
     qCritical()
         << "FileSystemRef::removeDirRecursively() called without filesystem.";
   }
+}
+
+/*******************************************************************************
+ *  Convenience Methods
+ ******************************************************************************/
+
+QString FileSystemRef::readText(const QString& path) const {
+  return QString::fromUtf8(readBinary(path));
+}
+
+void FileSystemRef::writeText(const QString& path, const QString& content) {
+  QByteArray raw = content.toUtf8();
+  if (!raw.endsWith('\n')) {
+    raw.append('\n');  // ensure trailing newline
+  }
+  writeBinary(path, raw);
 }
 
 /*******************************************************************************
